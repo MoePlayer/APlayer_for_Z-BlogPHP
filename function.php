@@ -19,7 +19,7 @@ class aplayer_class
                 $data['autoplay'] = isset($atts['autoplay']) ? self::str2bool($atts['autoplay']) : (bool)$config->autoplay;
                 $data['mutex'] = isset($atts['mutex']) ? self::str2bool($atts['mutex']) : (bool)$config->mutex;
                 $data['theme'] = isset($atts['theme']) ? $atts['theme'] : $config->theme;
-                $data['mode'] = $config->mode==1 ? 'random' : ($config->mode==2 ? 'single' : ($config->mode==3 ? 'circulation' : 'order'));
+                $data['mode'] = isset($atts['mode']) ? $atts['mode'] : ($config->mode==1 ? 'random' : ($config->mode==2 ? 'single' : ($config->mode==3 ? 'circulation' : 'order')));
                 $data['preload'] = isset($atts['preload']) ? $atts['preload'] : $config->preload==1 ? 'metadata' : ($config->preload==2 ? 'none' : 'auto');
                 isset($atts['listmaxheight']) ? $data['listmaxheight'] = $atts['listmaxheight'] : 0;
                 $data['music'] = array();
@@ -31,7 +31,7 @@ class aplayer_class
                             $atts = self::shortcode_parse_atts($all[3][$k]);
                             if (isset($atts['url'])) {
                                 $tmp = array('url' => $atts['url']);
-                                $tmp['pic'] = isset($atts['cover']) ? $atts['cover'] : isset($atts['pic']) ? $atts['pic'] : '';
+                                $tmp['pic'] = isset($atts['cover']) ? $atts['cover'] : (isset($atts['pic']) ? $atts['pic'] : '');
                                 $data['showlrc'] = isset($atts['lrc']) ? ($tmp['lrc'] = $atts['lrc']) ? 3 : 3 :
                                     ($tmp['lrc'] = (preg_match('/\[(lrc)](.*?)\[\/\\1]/si', $all[5][$k], $lrc)) && $lrc[2] ?
                                         $lrc[2] : "[00:00.00]暂无歌词\n[99:00.00] ") ? 1 : 1;
@@ -56,11 +56,12 @@ class aplayer_class
                         isset($atts['title']) ? $data['music']['title'] = $atts['title'] : 0;
                         isset($atts['artist']) ? $data['music']['author'] = $atts['artist'] :
                             (isset($atts['author']) ? $data['music']['author'] = $atts['author'] : 0);
-                        $data['music']['pic'] = isset($atts['cover']) ? isset($atts['pic']) ? $atts['pic'] : $atts['cover'] : '';
-                        $data['music']['lrc'] = isset($atts['lrc']) ? $atts['lrc'] : "[00:00.00]暂无歌词\n[99:00.00] ";
+                        $data['music']['pic'] = isset($atts['cover']) ? $atts['cover'] : (isset($atts['pic']) ? $atts['pic'] : '');
                         $data['showlrc'] = isset($atts['lrc']) ? 3 : 1;
+                        isset($atts['lrc']) ? $data['music']['lrc'] = $atts['lrc'] : $data['showlrc'] = 0;
                     }
                 }
+                $data['showlrc'] = $atts['lrc']=='false' ? 0 : $data['showlrc'];
                 if ($data['music']) $js .= "\nAPlayerOptions.push(".json_encode($data, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT).");\n";
                 $out = empty($out) ?
                     self::str_replace_once($matches[0][$i], "<div id=\"ap".$data['id']."\" class=\"aplayer\"></div>", $post):
