@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="php">
+<id>APlayer</id>
+<name>APlayer for Z-BlogPHP</name>
+<url>https://github.com/fghrsh/APlayer_for_Z-BlogPHP</url>
+<note>APlayer - 超级好看的HTML5内嵌音乐播放器</note>
+<description>https://www.fghrsh.net/post/77.html</description>
+<path>main.php</path>
+<include>include.php</include>
+<level>1</level>
+<author>
+  <name>FGHRSH</name>
+  <email>i@fghrsh.net</email>
+  <url>https://www.fghrsh.net/</url>
+</author>
+<source>
+  <name></name>
+  <email></email>
+  <url></url>
+</source>
+<adapted>140614</adapted>
+<version>1.2</version>
+<pubdate>2016-06-02</pubdate>
+<modified>2017-04-20</modified>
+<price>0</price>
+<phpver>5.2</phpver>
+<advanced>
+  <dependency></dependency>
+  <rewritefunctions></rewritefunctions>
+  <existsfunctions></existsfunctions>
+  <conflict></conflict>
+</advanced>
+<sidebars>
+  <sidebar1></sidebar1>
+  <sidebar2></sidebar2>
+  <sidebar3></sidebar3>
+  <sidebar4></sidebar4>
+  <sidebar5></sidebar5>
+</sidebars>
+</plugin>
