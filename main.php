@@ -13,9 +13,9 @@ if(isset($_POST['api'])){
 	if(empty($api)){
 	    $zbp->ShowHint('bad', 'API 地址不允许为空！');
 	} else {
-		if (!$api == ($zbp->Config('APlayer')->api)) {
+		if ($api != ($zbp->Config('APlayer')->api)) {
 			$zbp->Config('APlayer')->api = $api;
-			$tips = 'API 地址设置成功；';
+			$tips = 'API 地址设置成功;';
 		}
 	}
 	$mutex = in_array('mutex', $options) ? 1 : 0;
@@ -52,14 +52,10 @@ if(isset($_POST['api'])){
 	}
 	$zbp->SaveConfig('APlayer');
 	
-	if ( isset($tips) ) {
+	if (!empty($tips)) {
 	    $tips = explode(";",$tips);
-	    for ($i=0;$i<count($tips)-1;$i++) {
-	        $zbp->ShowHint('good', $tips[$i]);
-	    }
-	} else {
-	    $zbp->ShowHint('bad', '设置未更改');
-	}
+	    for ($i=0;$i<count($tips)-1;$i++) $zbp->ShowHint('good', $tips[$i]);
+	} else $zbp->ShowHint('bad', '设置未更改');
 }
 ?>
 <link rel="stylesheet" href="jcolor/jcolor.min.css" type="text/css" />

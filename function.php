@@ -1,5 +1,4 @@
 <?php
-require dirname(__FILE__).'/api/aplayer_music_api.php';
 
 class aplayer_class
 {

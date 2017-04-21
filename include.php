@@ -31,7 +31,7 @@ function APlayer_Filter_Plugin_Zbp_MakeTemplatetags() {
 function InstallPlugin_APlayer() {
 	global $zbp,$obj,$bucket;
     if (!$zbp->Config('APlayer')->HasKey('theme')) {
-        $zbp->Config('APlayer')->api = $zbp->host.'zb_users/plugin/APlayer/api/';
+        $zbp->Config('APlayer')->api = 'https://api.fghrsh.net/music/aplayer_music_api/';
         $zbp->Config('APlayer')->narrow = 0;
         $zbp->Config('APlayer')->autoplay = 0;
         $zbp->Config('APlayer')->mutex = 1;

@@ -1,4 +1,4 @@
-<?php require dirname(__FILE__).'/aplayer_music_api.php';
+<?php require 'aplayer_music_api.php';
 
 $api = new aplayer_music_api(); $switch = explode('.', $_GET['id']); $id = $switch[0]; $mix = $switch[2];
 $url = str_replace('?'.$_SERVER["QUERY_STRING"], '', check_https('http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"])); 

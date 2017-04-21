@@ -1,4 +1,4 @@
-<?php require dirname(__FILE__).'/NeteaseMusicAPI_mini.php';
+<?php require 'NeteaseMusicAPI_mini.php';
 
 class aplayer_music_api {
     function url($id) {
