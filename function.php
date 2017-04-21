@@ -4,7 +4,7 @@ require dirname(__FILE__).'/api/aplayer_music_api.php';
 class aplayer_class
 {
     function parseCallback($post, $config) {
-        $api = self::check_https($config->api);
+        $api = self::check_https($config->api); $js = '';
         $pattern = self::get_shortcode_regex(array('aplayer'));
         preg_match_all("/$pattern/",$post,$matches);
         if (empty($matches[0])) return $post."<i id=\"apajax\" hidden=\"hidden\"></i>";
@@ -39,17 +39,17 @@ class aplayer_class
                                 $tmp['author'] = isset($atts['author']) ? $atts['author'] : (isset($atts['artist']) ? $atts['artist'] : 'Unknown');
                                 $data['music'][] = $tmp;
                             } elseif (isset($atts['id']))
-                                $data['showlrc'] = ($data['music'][] = json_decode(self::curl($api.'?'.(int)$atts['id'].'.song'), 1)[0]) ? 3 : 3;
+                                $data['showlrc'] = ($data['music'][] = ($t = json_decode(self::curl($api.'?id='.(int)$atts['id'].'.song'), 1)) ? $t[0] : $t[0]) ? 3 : 3;
                         } $data['music'] = count($data['music']) == 1 ? $data['music'][0] : $data['music'];
                     }
                 } else {
                     if (isset($atts['id'])) {
                         $data['showlrc'] = 3; $mix = $config->mix ? '.2' : '';
                         switch ($atts['type']) {
-                            case 'collect': $data['music'] = json_decode(self::curl($api.'?'.$atts['id'].'.collect'.$mix), 1); break;
-                            case 'artist': $data['music'] = json_decode(self::curl($api.'?'.$atts['id'].'.artist'.$mix), 1); break;
-                            case 'album': $data['music'] = json_decode(self::curl($api.'?'.$atts['id'].'.album'.$mix), 1); break;
-                            default: $data['music'] = json_decode(self::curl($api.'?'.$atts['id'].'.song'.$mix), 1); break;
+                            case 'collect': $data['music'] = json_decode(self::curl($api.'?id='.$atts['id'].'.collect'.$mix), 1); break;
+                            case 'artist': $data['music'] = json_decode(self::curl($api.'?id='.$atts['id'].'.artist'.$mix), 1); break;
+                            case 'album': $data['music'] = json_decode(self::curl($api.'?id='.$atts['id'].'.album'.$mix), 1); break;
+                            default: $data['music'] = json_decode(self::curl($api.'?id='.$atts['id'].'.song'.$mix), 1); break;
                         }
                     } else {
                         isset($atts['url']) ? $data['music']['url'] = $atts['url'] : 0;
@@ -61,8 +61,8 @@ class aplayer_class
                         isset($atts['lrc']) ? $data['music']['lrc'] = $atts['lrc'] : $data['showlrc'] = 0;
                     }
                 }
-                $data['showlrc'] = $atts['lrc']=='false' ? 0 : $data['showlrc'];
-                if ($data['music']) $js .= "\nAPlayerOptions.push(".json_encode($data, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT).");\n";
+                $data['showlrc'] = isset($atts['lrc']) && $atts['lrc']=='false' ? 0 : $data['showlrc'];
+                if ($data['music']) $js .= 'APlayerOptions.push('.json_encode($data).');';
                 $out = empty($out) ?
                     self::str_replace_once($matches[0][$i], "<div id=\"ap".$data['id']."\" class=\"aplayer\"></div>", $post):
                     self::str_replace_once($matches[0][$i], "<div id=\"ap".$data['id']."\" class=\"aplayer\"></div>", $out);

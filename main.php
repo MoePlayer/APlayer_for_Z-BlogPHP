@@ -8,7 +8,7 @@ require '../../../zb_system/admin/admin_header.php';
 require '../../../zb_system/admin/admin_top.php';
 
 if(isset($_POST['api'])){
-	foreach($_POST as $k => $v) $$k = $v;
+	foreach($_POST as $k => $v) $$k = $v; $tips = '';
 	
 	if(empty($api)){
 	    $zbp->ShowHint('bad', 'API 地址不允许为空！');
@@ -63,12 +63,12 @@ if(isset($_POST['api'])){
 }
 ?>
 <link rel="stylesheet" href="jcolor/jcolor.min.css" type="text/css" />
-<style>table,td,th,tr,.api,tr.color1,tr.color2,tr.color3,tr.color4 { background: rgba(0,0,0,0)!important; border: 1px solid rgba(100,100,100,0.2)!important; }</style>
+<style>table,td,th,tr,.api,tr.color1,tr.color2,tr.color3,tr.color4 { background: rgba(0,0,0,0)!important; border: 2px solid rgba(100,100,100,0.2)!important; }</style>
 <script type="text/javascript" src="jcolor/jcolor.min.js"></script>
 <!-- 背景图取自 pixiv，作品ID：62477678。 （https://www.pixiv.net/member_illust.php?mode=medium&illust_id=62477678） -->
-<div id="divMain" style="background: url(<?php echo $zbp->host; ?>zb_users/plugin/APlayer/bg.png) no-repeat right bottom;">
+<div id="divMain" style="border-radius: 3px; padding: 10px; background: white url(<?php echo $zbp->host; ?>zb_users/plugin/APlayer/bg.png) no-repeat right bottom;">
     <div class="divHeader"><a href="https://app.zblogcn.com/?id=1321" target="_blank">APlayer for Z-BlogPHP</a> - 插件配置</div>
-	    <div id="divMain2" style="background: rgba(0,0,0,0);">
+	    <div id="divMain2">
 	        <form id="form1" name="form1" method="post">
                 <table width="90%" style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0' class="tableBorder">
                     <tr>
@@ -158,7 +158,7 @@ if(isset($_POST['api'])){
                 </table>
                 <div style="width:90%;float:inherit">
                     <div style="float:left;padding:10px 0">
-                        &copy;2017 <a href="https://www.fghrsh.net" target="_blank" style="color:#333333">FGHRSH</a> - <a href="https://www.fghrsh.net/post/77.html" target="_blank" style="color:#333333">APlayer for Z-BlogPHP V1.2</a> (APlayer 1.6.0)
+                        &copy;2017 <a href="https://www.fghrsh.net" target="_blank" style="color:#333333">FGHRSH</a> - <a href="https://www.fghrsh.net/post/77.html" target="_blank" style="color:#333333">APlayer for Z-BlogPHP V1.3</a> (APlayer 1.6.0)
                     </div>
                     <div style="float:right;padding:5px 0;">
                         <input type="Submit" class="button" value="保存设置" />
