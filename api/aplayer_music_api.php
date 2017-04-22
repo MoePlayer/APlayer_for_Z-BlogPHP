@@ -12,7 +12,7 @@ class aplayer_music_api {
         return $api['code'] == 200 ? ($out = $lang ? self::mix_lyric($api) : $api['lrc']['lyric']) ? $out : "[00:00.00]暂无歌词\n[99:00.00] " : 0; }
     function song($ids, $url, $mix) {
         $api = new NeteaseMusicAPI();
-        foreach (explode(',', $ids) as $id) if ($t = json_decode($api->detail((int)$id), 1) && $t['code'] == 200) $o[] = $api['songs'][0];
+        foreach (explode(',', $ids) as $id) { $t = json_decode($api->detail((int)$id), 1); if ($t['code'] == 200) $o[] = $t['songs'][0]; }
         return self::playlist($o, $url, $mix);                                      }
     function collect($id, $url, $mix) {
         $api = new NeteaseMusicAPI(); $api = json_decode($api->playlist((int)$id), 1);
