@@ -22,6 +22,7 @@ if(isset($_POST['api'])){
 	$narrow = in_array('narrow', $options) ? 1 : 0;
 	$autoplay = in_array('autoplay', $options) ? 1 : 0;
 	$mix = in_array('mix', $options) ? 1 : 0;
+	$parselist = in_array('parselist', $options) ? 1 : 0;
 	if ($narrow != $zbp->Config('APlayer')->narrow) {
 	    $zbp->Config('APlayer')->narrow = $narrow;
 	    $tips .= '设置已应用;';
@@ -48,6 +49,10 @@ if(isset($_POST['api'])){
 	}
 	if ($mix != $zbp->Config('APlayer')->mix) {
 	    $zbp->Config('APlayer')->mix = $mix;
+	    $tips .= '设置已应用;';
+	}
+	if ($parselist != $zbp->Config('APlayer')->parselist) {
+	    $zbp->Config('APlayer')->parselist = $parselist;
 	    $tips .= '设置已应用;';
 	}
 	$zbp->SaveConfig('APlayer');
@@ -80,7 +85,8 @@ if(isset($_POST['api'])){
                             'theme' => $zbp->Config('APlayer')->theme,
                             'mode' => $zbp->Config('APlayer')->mode,
                             'preload' => $zbp->Config('APlayer')->preload,
-                            'mix' => $zbp->Config('APlayer')->mix
+                            'mix' => $zbp->Config('APlayer')->mix,
+                            'parselist' => $zbp->Config('APlayer')->parselist
 		                );
                     ?>
                     <tr>
@@ -111,7 +117,8 @@ if(isset($_POST['api'])){
                                 简洁模式&nbsp;<input type="checkbox" name="options[]" value="narrow" <?php if($config['narrow']==1){echo 'checked="checked"';} ?>/>&nbsp;&nbsp;
                                 自动播放&nbsp;<input type="checkbox" name="options[]" value="autoplay" <?php if($config['autoplay']==1){echo 'checked="checked"';} ?>/>&nbsp;&nbsp;
                                 静音其他实例&nbsp;<input type="checkbox" name="options[]" value="mutex" <?php if($config['mutex']==1){echo 'checked="checked"';} ?>/>&nbsp;&nbsp;
-                                获取歌词翻译(如有)&nbsp;<input type="checkbox" name="options[]" value="mix" <?php if($config['mix']==1){echo 'checked="checked"';} ?>/>&nbsp;&nbsp;
+                                获取歌词翻译&nbsp;<input type="checkbox" name="options[]" value="mix" <?php if($config['mix']==1){echo 'checked="checked"';} ?>/>&nbsp;&nbsp;
+                                解析列表页标签&nbsp;<input type="checkbox" name="options[]" value="parselist" <?php if($config['parselist']==1){echo 'checked="checked"';} ?>/>&nbsp;&nbsp;
                             </p>
                             <p align="left">---------------------------------------------------------</p>
                             <p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

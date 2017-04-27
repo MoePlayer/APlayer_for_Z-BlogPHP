@@ -21,13 +21,13 @@
 <adapted>140614</adapted>
 <version>1.3</version>
 <pubdate>2016-06-02</pubdate>
-<modified>2017-04-21</modified>
+<modified>2017-04-24</modified>
 <price>0</price>
 <phpver>5.2</phpver>
 <advanced>
   <dependency></dependency>
   <rewritefunctions></rewritefunctions>
-  <existsfunctions></existsfunctions>
+  <existsfunctions>curl_init</existsfunctions>
   <conflict></conflict>
 </advanced>
 <sidebars>

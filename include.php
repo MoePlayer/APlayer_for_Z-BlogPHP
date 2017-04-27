@@ -19,8 +19,11 @@ function APlayer_Filter_Plugin_ViewPost_Template(&$template) {
 function APlayer_Filter_Plugin_ViewList_Template(&$template) {
     global $APlayer;
 	global $zbp;
-	$articles = $template->GetTags('articles');
-	foreach($articles as $article) { $article->Intro = $APlayer->parseCallback($article->Intro, $zbp->Config('APlayer')); }
+	$config = $zbp->Config('APlayer');
+	if ($config->parselist) {
+	    $articles = $template->GetTags('articles');
+	    foreach($articles as $article) $article->Intro = $APlayer->parseCallback($article->Intro, $config);
+	}
 }
 
 function APlayer_Filter_Plugin_Zbp_MakeTemplatetags() {
@@ -39,6 +42,7 @@ function InstallPlugin_APlayer() {
         $zbp->Config('APlayer')->mode = 1;
         $zbp->Config('APlayer')->preload = 0;
         $zbp->Config('APlayer')->mix = 1;
+        $zbp->Config('APlayer')->parselist = 0;
         $zbp->SaveConfig('APlayer');
     }
 }
