@@ -1,24 +1,24 @@
 <?php
 require dirname(__FILE__).'/function.php';
 $APlayer = new APlayer_class();
-RegisterPlugin("APlayer","ActivePlugin_APlayer");
+RegisterPlugin("APlayer", "ActivePlugin_APlayer");
 
 function ActivePlugin_APlayer() {
-	Add_Filter_Plugin('Filter_Plugin_ViewPost_Template','APlayer_Filter_Plugin_ViewPost_Template');
-	Add_Filter_Plugin('Filter_Plugin_ViewList_Template','APlayer_Filter_Plugin_ViewList_Template');
-	Add_Filter_Plugin('Filter_Plugin_Zbp_MakeTemplatetags','APlayer_Filter_Plugin_Zbp_MakeTemplatetags');
+	Add_Filter_Plugin('Filter_Plugin_ViewPost_Template', 'APlayer_Filter_Plugin_ViewPost_Template');
+	Add_Filter_Plugin('Filter_Plugin_ViewList_Template', 'APlayer_Filter_Plugin_ViewList_Template');
+	Add_Filter_Plugin('Filter_Plugin_Zbp_MakeTemplatetags', 'APlayer_Filter_Plugin_Zbp_MakeTemplatetags');
 }
 
 function APlayer_Filter_Plugin_ViewPost_Template(&$template) {
+    global $zbp;
     global $APlayer;
-	global $zbp;
 	$article = $template->GetTags('article');
 	$article->Content = $APlayer->parseCallback($article->Content, $zbp->Config('APlayer'));
 }
 
 function APlayer_Filter_Plugin_ViewList_Template(&$template) {
+    global $zbp;
     global $APlayer;
-	global $zbp;
 	$config = $zbp->Config('APlayer');
 	if ($config->parselist) {
 	    $articles = $template->GetTags('articles');

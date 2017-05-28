@@ -8,6 +8,7 @@ require '../../../zb_system/admin/admin_header.php';
 require '../../../zb_system/admin/admin_top.php';
 
 if(isset($_POST['api'])){
+    $tips = '';
 	foreach($_POST as $k => $v) $$k = $v; $tips = '';
 	
 	if(empty($api)){
@@ -15,7 +16,7 @@ if(isset($_POST['api'])){
 	} else {
 		if ($api != ($zbp->Config('APlayer')->api)) {
 			$zbp->Config('APlayer')->api = $api;
-			$tips = 'API 地址设置成功;';
+			$tips .= 'API 地址设置成功;';
 		}
 	}
 	$mutex = in_array('mutex', $options) ? 1 : 0;
@@ -161,7 +162,7 @@ if(isset($_POST['api'])){
                 </table>
                 <div style="width:90%;float:inherit">
                     <div style="float:left;padding:10px 0">
-                        &copy;2017 <a href="https://www.fghrsh.net" target="_blank" style="color:#333333">FGHRSH</a> - <a href="https://www.fghrsh.net/post/77.html" target="_blank" style="color:#333333">APlayer for Z-BlogPHP V1.3</a> (APlayer 1.6.0)
+                        &copy;2017 <a href="https://www.fghrsh.net" target="_blank" style="color:#333333">FGHRSH</a> - <a href="https://www.fghrsh.net/post/77.html" target="_blank" style="color:#333333">APlayer for Z-BlogPHP V1.4</a> (APlayer 1.6.0)
                     </div>
                     <div style="float:right;padding:5px 0;">
                         <input type="Submit" class="button" value="保存设置" />

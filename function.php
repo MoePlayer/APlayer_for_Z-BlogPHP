@@ -6,7 +6,7 @@ class aplayer_class
         $api = self::check_https($config->api); $js = '';
         $pattern = self::get_shortcode_regex(array('aplayer'));
         preg_match_all("/$pattern/",$post,$matches);
-        if (empty($matches[0])) return $post."<i id=\"apajax\" hidden=\"hidden\"></i>";
+        if (empty($matches[0])) return $post.'<div id="apajax" style="display:none;"></div>';
         for ($i=0;$i<count($matches[0]);$i++) {
             if ($matches[1][$i] == '[' and $matches[6][$i] == ']') {
                 $ap["#ap#$i#"] = substr($matches[0][$i], 1, -1);
@@ -61,15 +61,37 @@ class aplayer_class
                     }
                 }
                 $data['showlrc'] = isset($atts['lrc']) && $atts['lrc']=='false' ? 0 : $data['showlrc'];
-                if ($data['music']) $js .= 'APlayerOptions.push('.json_encode($data).');';
+                if ($data['music']) $js .= "\n".'APlayerOptions.push('.self::json_encode_pretty($data).');';
                 $out = empty($out) ?
-                    self::str_replace_once($matches[0][$i], "<div id=\"ap".$data['id']."\" class=\"aplayer\"></div>", $post):
-                    self::str_replace_once($matches[0][$i], "<div id=\"ap".$data['id']."\" class=\"aplayer\"></div>", $out);
+                    self::str_replace_once($matches[0][$i], '<div id="ap'.$data['id'].'" class="aplayer"></div>', $post):
+                    self::str_replace_once($matches[0][$i], '<div id="ap'.$data['id'].'" class="aplayer"></div>', $out);
             }
         }
-        $out .= "<i id=\"apajax\" hidden=\"hidden\">".$js."</i>";
+        $out .= "<div id=\"apajax\" style=\"display:none;\">$js\n</div>";
         if (isset($ap)) foreach ($ap as $k => $v) $out = str_replace($k, $v, $out); return $out;
     }
+    
+    function json_encode_pretty($src) {
+        if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
+            return json_encode($src, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        } else {
+            array_walk_recursive($src, 'self::json_encode_unescaped');
+            $src = urldecode(json_encode($src));
+            $ret = ''; $pos = 0; $newline = "\n"; $prevchar = '';
+            $length = strlen($src); $indent = '    '; $outofquotes = true;
+            for ($i=0; $i<=$length; $i++) {
+                $char = substr($src, $i, 1);
+                if ($char=='"' && $prevchar!='\\') $outofquotes = !$outofquotes;
+                elseif (($char=='}' || $char==']') && $outofquotes) {
+                    $ret .= $newline; $pos --; for ($j=0; $j<$pos; $j++) $ret .= $indent; }
+                $ret .= $char;
+                if (($char==',' || $char=='{' || $char=='[') && $outofquotes) {  
+                    $ret .= $newline; if ($char=='{' || $char=='[') $pos ++; for ($j=0; $j<$pos; $j++) $ret .= $indent; }
+                $prevchar = $char;
+            }
+            return str_replace(array('":', '"0"', '"1"', '"2"', '"3"'), array('": ', '0', '1', '2', '3'), $ret);
+        }   }
+    function json_encode_unescaped(&$val) { if ($val!==true && $val!==false && $val!==null) $val = urlencode($val); }
 
     function shortcode_parse_atts($text) {
         $atts = array();
