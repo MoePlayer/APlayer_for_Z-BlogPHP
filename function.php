@@ -129,7 +129,7 @@ class aplayer_class
         str_replace('http://','https://',$url) : str_replace('https://','http://',$url);                }
         
     static $playerID = 0; function getUniqueId() { return self::$playerID++; }
-    function str2bool($str) { return $str == 'true' ? $str == 'false' ? 0 : 1 : $str; }
+    function str2bool($str) { return $str == 'true' ? true : ($str == 'false' ? false : $str); }
     function str_replace_nbsp($str) { return strip_tags(htmlspecialchars_decode(str_replace('&nbsp;',' ',$str))); }
     function str_replace_once($n, $r, $h) { return ($p = strpos($h, $n)) === false ? $h : substr_replace($h, $r, $p, strlen($n)); }
 }
