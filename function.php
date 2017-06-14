@@ -75,8 +75,7 @@ class aplayer_class
         if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
             return json_encode($src, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } else {
-            array_walk_recursive($src, 'self::json_encode_unescaped');
-            $src = urldecode(json_encode($src));
+            $src = urldecode(json_encode(self::json_encode_unescaped($src)));
             $ret = ''; $pos = 0; $newline = "\n"; $prevchar = '';
             $length = strlen($src); $indent = '    '; $outofquotes = true;
             for ($i=0; $i<=$length; $i++) {
@@ -89,9 +88,12 @@ class aplayer_class
                     $ret .= $newline; if ($char=='{' || $char=='[') $pos ++; for ($j=0; $j<$pos; $j++) $ret .= $indent; }
                 $prevchar = $char;
             }
-            return str_replace(array('":', '"0"', '"1"', '"2"', '"3"'), array('": ', '0', '1', '2', '3'), $ret);
+            return str_replace(array('":', '"0"', '"1"', '"2"', '"3"', '""'), array('": ', '0', '1', '2', '3', '0'), $ret);
         }   }
-    function json_encode_unescaped(&$val) { if ($val!==true && $val!==false && $val!==null) $val = urlencode($val); }
+    function json_encode_unescaped($src) {
+        if (is_array($src)) foreach ($src as $key => $val)
+            $out[urlencode($key)] = self::json_encode_unescaped($val);
+        else $out = urlencode($src); return $out;                                       }
 
     function shortcode_parse_atts($text) {
         $atts = array();
