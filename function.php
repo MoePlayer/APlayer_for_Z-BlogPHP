@@ -31,9 +31,9 @@ class aplayer_class
                             if (isset($atts['url'])) {
                                 $tmp = array('url' => $atts['url']);
                                 $tmp['pic'] = isset($atts['cover']) ? $atts['cover'] : (isset($atts['pic']) ? $atts['pic'] : '');
-                                $data['showlrc'] = isset($atts['lrc']) ? ($tmp['lrc'] = $atts['lrc']) ? 3 : 3 :
-                                    ($tmp['lrc'] = (preg_match('/\[(lrc)](.*?)\[\/\\1]/si', $all[5][$k], $lrc)) && $lrc[2] ?
-                                        $lrc[2] : "[00:00.00]暂无歌词\n[99:00.00] ") ? 1 : 1;
+                                $data['showlrc'] = isset($atts['lrc']) ? (($tmp['lrc'] = $atts['lrc']) ? 3 : 3) :
+                                    (($tmp['lrc'] = (preg_match('/\[(lrc)](.*?)\[\/\\1]/si', $all[5][$k], $lrc)) && $lrc[2] ?
+                                        $lrc[2] : "[00:00.00]暂无歌词\n[99:00.00] ") ? 1 : 1);
                                 $tmp['title'] = isset($atts['title']) ?  $atts['title'] : 'Unknown';
                                 $tmp['author'] = isset($atts['author']) ? $atts['author'] : (isset($atts['artist']) ? $atts['artist'] : 'Unknown');
                                 $data['music'][] = $tmp;
